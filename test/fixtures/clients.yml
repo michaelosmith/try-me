@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: clients
+#
+#  id                       :bigint           not null, primary key
+#  date_of_birth            :date
+#  email                    :string
+#  first_name               :string
+#  gender                   :string
+#  last_name                :string
+#  member                   :boolean
+#  mindbody_profile_created :datetime
+#  mindbody_profile_updated :datetime
+#  photo                    :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :integer
+#  mindbody_id              :string
+#
+
+one:
+  mindbody_id: MyString
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  photo: MyString
+  gender: MyString
+  date_of_birth: 2022-07-30
+  member: false
+  mindbody_profile_created: 2022-07-30 15:50:48
+  mindbody_profile_updated: 2022-07-30 15:50:48
+  account_id: 1
+
+two:
+  mindbody_id: MyString
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  photo: MyString
+  gender: MyString
+  date_of_birth: 2022-07-30
+  member: false
+  mindbody_profile_created: 2022-07-30 15:50:48
+  mindbody_profile_updated: 2022-07-30 15:50:48
+  account_id: 1

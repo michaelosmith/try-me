@@ -1,0 +1,45 @@
+<%= content_for :title, "Clients" %>
+<%= turbo_stream_from :clients %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="h3">Clients</h1>
+
+      <div class="text-sm font-medium">
+        <span class="text-gray-500">Sort by:</span>
+        <%= sortable @clients, :mindbody_id, "Mindbody", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :first_name, "First name", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :last_name, "Last name", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :email, "Email", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :photo, "Photo", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :gender, "Gender", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :date_of_birth, "Date of birth", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :member, "Member", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :mindbody_profile_created, "Mindbody profile created", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :mindbody_profile_updated, "Mindbody profile updated", class: "text-gray-700 mr-1" %>
+        <%= sortable @clients, :account_id, "Account", class: "text-gray-700 mr-1" %>
+      </div>
+    </div>
+
+    <%= link_to t("shared.scaffold.new.title", model: "Client"), new_client_path, class: "btn btn-white" %>
+  </div>
+
+  <%= tag.div id: ("clients" if first_page?), class: "bg-white rounded-md shadow p-6 space-y-8" do %>
+    <%= render partial: "clients/index", collection: @clients, as: :client, cached: true %>
+
+    <div class="hidden only:flex flex-col items-center justify-between lg:flex-row">
+      <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+      <div class="flex-1 text-center">
+        <p class="mb-4 h3">Create your first Client</p>
+        <%= link_to t("shared.scaffold.new.title", model: "Client"), new_client_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @pagy.pages > 1 %>
+    <div class="my-6 text-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
