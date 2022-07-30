@@ -1,0 +1,17 @@
+--- !ruby/object:Jumpstart::Configuration
+application_name: TryMe
+business_name: TryMe Pty Ltd
+domain: example.com
+support_email: support@example.com
+default_from_email: Jumpstart <support@example.com>
+business_address: |-
+  66 Starkey Street
+  Forestville
+  NSW 2087
+background_job_processor: async
+email_provider: ''
+personal_accounts: true
+solargraph: false
+register_with_account: true
+apns: false
+fcm: false
