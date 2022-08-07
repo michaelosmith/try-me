@@ -1,46 +1,13 @@
-<div id="<%= dom_id client %>">
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Mindbody</p>
-    <%= client.mindbody_id %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">First name</p>
-    <%= client.first_name %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Last name</p>
-    <%= client.last_name %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Email</p>
-    <%= client.email %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Photo</p>
-    <%= client.photo %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Gender</p>
-    <%= client.gender %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Date of birth</p>
-    <%= client.date_of_birth %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Member</p>
-    <%= client.member %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Mindbody profile created</p>
-    <%= client.mindbody_profile_created %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Mindbody profile updated</p>
-    <%= client.mindbody_profile_updated %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Account</p>
-    <%= client.account_id %>
+<div class="table-row" id="<%= dom_id client %>">
+  <div class="table-cell py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-6"><%= client.mindbody_id %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.first_name %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.last_name %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.email %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.photo %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.gender %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.date_of_birth %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.member %></div>
+  <div class="relative table-cell py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6">
+    <%= link_to t("edit"), edit_client_path(client), class: "text-indigo-600 hover:text-indigo-900" %>
   </div>
 </div>

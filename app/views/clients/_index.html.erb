@@ -1,6 +1,2 @@
-<div id="<%= dom_id(client, :index) %>">
-  <%= turbo_stream_from client %>
-  <%= render client %>
-  <%= link_to "View", client, class: "btn btn-white" %>
-</div>
-
+<%= turbo_stream_from client %>
+<%= render client %>
