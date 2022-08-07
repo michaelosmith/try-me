@@ -1,6 +1,8 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
   resources :clients
+  resources :fitness_classes
+  resources :fitness_class_schedules #, as: 'classes'
   draw :turbo
 
   # Jumpstart views

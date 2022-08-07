@@ -1,0 +1,47 @@
+<%= content_for :title, "Classes" %>
+<%= turbo_stream_from :fitness_class_schedules %>
+
+<div class="container px-4 mx-auto my-8">
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-xl font-semibold text-gray-900">Classes</h1>
+      <p class="mt-2 text-sm text-gray-700">All the upcoming classes scheduled for the studio.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <%= link_to t("shared.scaffold.new.title", model: "Fitness Class Schedule"), new_fitness_class_schedule_path, class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" %>
+    </div>
+  </div>
+  <div class="flex flex-col mt-8">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <div class="table min-w-full divide-y divide-gray-300">
+            <div class="table-header-group bg-gray-50">
+              <div class="table-cell py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Image</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Class Name</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Start</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">End</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Booked</div>
+              <div class="table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Capacity</div>
+              <div class="table-cell relative py-3.5 pl-3 pr-4 sm:pr-6">
+                <span class="sr-only">View</span>
+              </div>
+            </div>
+            <div class="table-row-group bg-white" id="clients">
+              <%= render partial: "fitness_class_schedules/index", collection: @fitness_class_schedules, as: :fitness_class_schedule, cached: true %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <% if @pagy.pages > 1 %>
+    <div class="my-6 text-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>

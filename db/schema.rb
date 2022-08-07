@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_30_055048) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_07_112820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_30_055048) do
     t.datetime "mindbody_profile_created"
     t.datetime "mindbody_profile_updated"
     t.integer "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fitness_class_schedules", force: :cascade do |t|
+    t.bigint "fitness_class_id", null: false
+    t.date "start_date"
+    t.time "start_time"
+    t.time "end_time"
+    t.integer "capacity"
+    t.integer "book_online_capacity"
+    t.integer "waitlist_capacity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fitness_class_id"], name: "index_fitness_class_schedules_on_fitness_class_id"
+  end
+
+  create_table "fitness_classes", force: :cascade do |t|
+    t.string "name"
+    t.string "category"
+    t.string "type"
+    t.string "level"
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -308,6 +331,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_30_055048) do
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "fitness_class_schedules", "fitness_classes"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
