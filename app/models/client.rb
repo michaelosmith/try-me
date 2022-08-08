@@ -18,8 +18,12 @@
 #  mindbody_id              :string
 #
 class Client < ApplicationRecord
-
   acts_as_tenant :account
+
+  has_many :fitness_class_bookings
+  has_many :fitness_class_schedules, through: :fitness_class_bookings
+
+
   # Broadcast changes in realtime with Hotwire
   after_create_commit  -> { broadcast_prepend_later_to :clients, partial: "clients/index", locals: { client: self } }
   after_update_commit  -> { broadcast_replace_later_to self }

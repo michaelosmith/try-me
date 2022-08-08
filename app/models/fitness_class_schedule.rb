@@ -23,6 +23,8 @@
 #
 class FitnessClassSchedule < ApplicationRecord
   belongs_to :fitness_class
+  has_many :fitness_class_bookings
+  has_many :clients, through: :fitness_class_bookings
 
   # validates :name, presence: :true
   # validates :description, presence: :true

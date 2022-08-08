@@ -1,0 +1,11 @@
+<% @fitness_class_clients.each do |fitness_class_client| %>
+  <div class="table-row" id="<%= dom_id fitness_class_client %>">
+    <div class="table-cell py-4 pl-4 pr-3 text-sm font-medium text-gray-900 whitespace-nowrap sm:pl-6">
+      <img class="object-cover w-10 h-10 rounded-full" src='<%= fitness_class_client.photo %>' />
+    </div>
+    <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= fitness_class_client.first_name %></div>
+    <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= fitness_class_client.last_name %></div>
+    <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= fitness_class_client.email %></div>
+    <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= fitness_class_client.gender %></div>
+  </div>
+<% end %>

@@ -10,6 +10,10 @@ class FitnessClassSchedulesController < ApplicationController
     # authorize @clients
   end
 
+  def show
+    @fitness_class_clients = @fitness_class_schedule.clients
+  end
+
 
 
 private
