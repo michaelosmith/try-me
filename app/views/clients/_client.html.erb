@@ -3,6 +3,7 @@
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.first_name %></div>
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.last_name %></div>
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.email %></div>
+  <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= number_to_currency(client_lifetime_value(client)) %></div>
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.photo %></div>
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.gender %></div>
   <div class="table-cell px-3 py-4 text-sm text-gray-500 whitespace-nowrap"><%= client.date_of_birth %></div>
