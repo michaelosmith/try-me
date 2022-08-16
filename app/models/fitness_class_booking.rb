@@ -1,3 +1,10 @@
+# == Schema Information
+#
+# Table name: fitness_class_bookings
+#
+#  client_id                 :bigint           not null
+#  fitness_class_schedule_id :bigint           not null
+#
 class FitnessClassBooking < ApplicationRecord
   belongs_to :client
   belongs_to :fitness_class_schedule
