@@ -20,12 +20,17 @@
 class Client < ApplicationRecord
   acts_as_tenant :account
 
-  has_many :fitness_class_bookings
+  has_many :fitness_class_bookings, dependent: :destroy
   has_many :fitness_class_schedules, through: :fitness_class_bookings
   has_many :sales, dependent: :destroy
   has_many :purchased_items, through: :sales
 
+  scope :lifetime_value, ->(client) { Sale.service_sale.where(client_id: client.id).select(:total_amount).sum(:total_amount).to_f }
 
+
+  def self.avg_lifetime_value
+    Sale.service_sale.select(:total_amount).sum(:total_amount).to_f / self.count
+  end
   # Broadcast changes in realtime with Hotwire
   after_create_commit  -> { broadcast_prepend_later_to :clients, partial: "clients/index", locals: { client: self } }
   after_update_commit  -> { broadcast_replace_later_to self }
