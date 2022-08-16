@@ -27,6 +27,10 @@ class PurchasedItem < ApplicationRecord
   belongs_to :sale
   has_one :client, through: :sale
 
+
+  scope :is_service, -> { where(is_service: true) }
+  scope :not_service, -> { where(is_service: false) }
+
   # Broadcast changes in realtime with Hotwire
   after_create_commit  -> { broadcast_prepend_later_to :purchased_items, partial: "purchased_items/index", locals: { purchased_item: self } }
   after_update_commit  -> { broadcast_replace_later_to self }
