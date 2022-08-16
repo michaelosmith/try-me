@@ -22,6 +22,8 @@ class Client < ApplicationRecord
 
   has_many :fitness_class_bookings
   has_many :fitness_class_schedules, through: :fitness_class_bookings
+  has_many :sales, dependent: :destroy
+  has_many :purchased_items, through: :sales
 
 
   # Broadcast changes in realtime with Hotwire

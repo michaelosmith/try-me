@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: sales
+#
+#  id                 :bigint           not null, primary key
+#  date               :datetime
+#  description        :string
+#  payment_type       :string
+#  price              :decimal(8, 2)
+#  tax                :decimal(8, 2)
+#  total_amount       :decimal(8, 2)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  client_id          :bigint           not null
+#  mindbody_client_id :string
+#  mindbody_sale_id   :integer
+#
+# Indexes
+#
+#  index_sales_on_client_id  (client_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (client_id => clients.id)
+#
+
+one:
+  client: one
+  mb_sale_id: MyString
+  date: 2022-08-13 14:21:21
+  amount: 9.99
+  price: 9.99
+  tax: 9.99
+  description: MyString
+  payment_type: MyString
+
+two:
+  client: two
+  mb_sale_id: MyString
+  date: 2022-08-13 14:21:21
+  amount: 9.99
+  price: 9.99
+  tax: 9.99
+  description: MyString
+  payment_type: MyString

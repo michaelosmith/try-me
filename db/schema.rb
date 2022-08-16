@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_08_104814) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_13_042305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_104814) do
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_api_tokens_on_token", unique: true
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
+  end
+
+  create_table "autopay_schedules", force: :cascade do |t|
+    t.time "date"
+    t.integer "charge"
+    t.integer "mindbody_id"
+    t.bigint "client_contract_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_contract_id"], name: "index_autopay_schedules_on_client_contract_id"
+  end
+
+  create_table "client_contracts", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.string "name"
+    t.string "autopay_status"
+    t.time "start_date"
+    t.time "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_contracts_on_client_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -275,6 +296,36 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_104814) do
     t.string "description"
   end
 
+  create_table "purchased_items", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.integer "mindbody_purchased_item_id"
+    t.boolean "is_service"
+    t.string "description"
+    t.string "contract_id"
+    t.integer "quantity"
+    t.decimal "unti_price", precision: 8, scale: 2
+    t.decimal "tax", precision: 8, scale: 2
+    t.decimal "amount", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_purchased_items_on_sale_id"
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.integer "mindbody_sale_id"
+    t.string "mindbody_client_id"
+    t.datetime "date"
+    t.decimal "price", precision: 8, scale: 2
+    t.decimal "tax", precision: 8, scale: 2
+    t.decimal "total_amount", precision: 8, scale: 2
+    t.string "description"
+    t.string "payment_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_sales_on_client_id"
+  end
+
   create_table "user_connected_accounts", force: :cascade do |t|
     t.bigint "user_id"
     t.string "provider"
@@ -336,9 +387,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_104814) do
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "autopay_schedules", "client_contracts"
+  add_foreign_key "client_contracts", "clients"
   add_foreign_key "fitness_class_schedules", "fitness_classes"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "purchased_items", "sales"
+  add_foreign_key "sales", "clients"
   add_foreign_key "user_connected_accounts", "users"
 end
