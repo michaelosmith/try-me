@@ -24,6 +24,8 @@ class Client < ApplicationRecord
   has_many :fitness_class_schedules, through: :fitness_class_bookings
   has_many :sales, dependent: :destroy
   has_many :purchased_items, through: :sales
+  has_many :client_contracts
+  has_many :autopay_schedules, through: :client_contracts
 
   scope :lifetime_value, ->(client) { Sale.service_sale.where(client_id: client.id).select(:total_amount).sum(:total_amount).to_f }
 

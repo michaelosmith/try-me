@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: client_contracts
+#
+#  id                   :bigint           not null, primary key
+#  autopay_status       :string
+#  end_date             :time
+#  name                 :string
+#  start_date           :time
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  client_id            :bigint           not null
+#  mindbody_contract_id :integer
+#
+# Indexes
+#
+#  index_client_contracts_on_client_id  (client_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (client_id => clients.id)
+#
+
+one:
+  client: one
+  name: MyString
+  autopay_status: MyString
+  start_date: 2022-08-11 21:37:22
+  end_date: 2022-08-11 21:37:22
+  autpay_schedule: one
+
+two:
+  client: two
+  name: MyString
+  autopay_status: MyString
+  start_date: 2022-08-11 21:37:22
+  end_date: 2022-08-11 21:37:22
+  autpay_schedule: two
