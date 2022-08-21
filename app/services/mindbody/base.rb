@@ -1,13 +1,13 @@
 module Mindbody
   class Base
-    def initialize(api_key, site_id, user_slug)
+    def initialize api_key, site_id, user_token
       @base_url = 'https://api.mindbodyonline.com/public/v6'
-      @user = User.find_by(slug: user_slug)
+      # @user = User.find_by(slug: user_slug)
       @headers  = { 
         'Content-Type': 'application/json',
         'Api-Key': api_key,
         'SiteId': site_id,
-        'Authorization': @user.token
+        'Authorization': user_token
       }
       @request_pool = Typhoeus::Hydra.hydra
     end
