@@ -12,6 +12,7 @@
 #  mindbody_profile_created :datetime
 #  mindbody_profile_updated :datetime
 #  photo                    :string
+#  status                   :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  account_id               :integer
