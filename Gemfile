@@ -58,6 +58,7 @@ group :development, :test do
   # Security tooling to
   # gem "brakeman"
   # gem "bundler-audit", github: "rubysec/bundler-audit"
+  gem 'faker'
 end
 
 group :development do
