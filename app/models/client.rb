@@ -31,13 +31,7 @@ class Client < ApplicationRecord
   scope :lifetime_value, ->(client) { Sale.service_sale.where(client_id: client.id).select(:total_amount).sum(:total_amount).to_f }
 
   # Class methods
-  def self.avg_lifetime_value
-    Sale.service_sale.select(:total_amount).sum(:total_amount).to_f / self.count
-  end
 
-  def self.contract_clients
-    ClientContract.select(:client_id).where(client_id: self.ids).distinct
-  end
 
   # Instance methods
   def has_had_contract?
