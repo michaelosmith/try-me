@@ -24,7 +24,7 @@ class AutopaySchedule < ApplicationRecord
   scope :upcoming_autopays, -> { where('date BETWEEN ? AND ?', Date.now, 14.days.from_now) }
 
   # Broadcast changes in realtime with Hotwire
-  after_create_commit  -> { broadcast_prepend_later_to :autopay_schedules, partial: "autopay_schedules/index", locals: { autopay_schedule: self } }
-  after_update_commit  -> { broadcast_replace_later_to self }
-  after_destroy_commit -> { broadcast_remove_to :autopay_schedules, target: dom_id(self, :index) }
+  # after_create_commit  -> { broadcast_prepend_later_to :autopay_schedules, partial: "autopay_schedules/index", locals: { autopay_schedule: self } }
+  # after_update_commit  -> { broadcast_replace_later_to self }
+  # after_destroy_commit -> { broadcast_remove_to :autopay_schedules, target: dom_id(self, :index) }
 end
