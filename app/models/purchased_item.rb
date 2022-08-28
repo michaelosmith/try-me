@@ -32,7 +32,7 @@ class PurchasedItem < ApplicationRecord
   scope :not_service, -> { where(is_service: false) }
 
   # Broadcast changes in realtime with Hotwire
-  after_create_commit  -> { broadcast_prepend_later_to :purchased_items, partial: "purchased_items/index", locals: { purchased_item: self } }
-  after_update_commit  -> { broadcast_replace_later_to self }
-  after_destroy_commit -> { broadcast_remove_to :purchased_items, target: dom_id(self, :index) }
+  # after_create_commit  -> { broadcast_prepend_later_to :purchased_items, partial: "purchased_items/index", locals: { purchased_item: self } }
+  # after_update_commit  -> { broadcast_replace_later_to self }
+  # after_destroy_commit -> { broadcast_remove_to :purchased_items, target: dom_id(self, :index) }
 end
