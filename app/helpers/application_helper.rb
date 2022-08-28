@@ -53,4 +53,8 @@ module ApplicationHelper
   def first_page?
     @pagy.page == 1
   end
+
+  def upcoming_autopays_value
+    AutopaySchedule.upcoming_autopays_value
+  end
 end

@@ -21,7 +21,8 @@
 class AutopaySchedule < ApplicationRecord
   belongs_to :client_contract
 
-  scope :upcoming_autopays, -> { where('date BETWEEN ? AND ?', Date.now, 14.days.from_now) }
+  scope :upcoming_autopays, ->(days = 14) { where('date BETWEEN ? AND ?', DateTime.now, days.days.from_now) }
+  scope :upcoming_autopays_value, -> { upcoming_autopays(7).select(:charge).sum(:charge).to_f }
 
   # Broadcast changes in realtime with Hotwire
   # after_create_commit  -> { broadcast_prepend_later_to :autopay_schedules, partial: "autopay_schedules/index", locals: { autopay_schedule: self } }
