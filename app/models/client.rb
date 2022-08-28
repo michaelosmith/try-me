@@ -28,8 +28,23 @@ class Client < ApplicationRecord
   has_many :client_contracts
   has_many :autopay_schedules, through: :client_contracts
 
-  scope :lifetime_value, ->(client) { Sale.service_sale.where(client_id: client.id).select(:total_amount).sum(:total_amount).to_f }
 
+  sql = <<-SQL
+    SELECT
+      SUM(sales.total_amount) / COUNT(DISTINCT clients.mindbody_id) as avg_lifetime_value
+    FROM clients
+      INNER JOIN sales ON sales.client_id = clients.id
+      INNER JOIN purchased_items ON purchased_items.sale_id = sales.id
+    WHERE
+      purchased_items.is_service = TRUE;
+  SQL
+
+  scope :current_or_has_been_member, -> { joins(:client_contracts).distinct }
+  scope :lifetime_value, ->(client) { Sale.client_lifetime_sales(client.id) }
+  scope :avg_lifetime_value, -> { Sale.service_sale.select(:total_amount).sum(:total_amount).to_f / self.current_or_has_been_member.count.to_f }
+  scope :avg_client_value, -> { ActiveRecord::Base.connection.execute(sql)[0]["avg_lifetime_value"].to_f }
+
+  
   # Class methods
 
 
