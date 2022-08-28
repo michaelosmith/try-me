@@ -54,6 +54,14 @@ module ApplicationHelper
     @pagy.page == 1
   end
 
+  def client_lifetime_value(client)
+    Client.lifetime_value(client)
+  end
+
+  def avg_client_lifetime_value
+    Client.avg_client_value
+  end
+
   def upcoming_autopays_value
     AutopaySchedule.upcoming_autopays_value
   end
