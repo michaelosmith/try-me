@@ -4,9 +4,9 @@
 #
 #  id                   :bigint           not null, primary key
 #  autopay_status       :string
-#  end_date             :time
+#  end_date             :date
 #  name                 :string
-#  start_date           :time
+#  start_date           :date
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  client_id            :bigint           not null

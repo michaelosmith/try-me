@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_21_044808) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_25_114318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -131,11 +131,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_21_044808) do
     t.bigint "client_id", null: false
     t.string "name"
     t.string "autopay_status"
-    t.time "start_date"
-    t.time "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mindbody_contract_id"
+    t.date "start_date"
+    t.date "end_date"
     t.index ["client_id"], name: "index_client_contracts_on_client_id"
   end
 
