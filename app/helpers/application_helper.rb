@@ -65,4 +65,8 @@ module ApplicationHelper
   def upcoming_autopays_value
     AutopaySchedule.upcoming_autopays_value
   end
+
+  def avg_client_membership_length
+    (Client.avg_client_membership_length)
+  end
 end
