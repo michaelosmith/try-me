@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_25_114318) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_30_073243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -398,4 +398,31 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_114318) do
   add_foreign_key "purchased_items", "sales"
   add_foreign_key "sales", "clients"
   add_foreign_key "user_connected_accounts", "users"
+
+  create_view "views_client_contract_lengths", sql_definition: <<-SQL
+      SELECT sub3.client_id,
+      sub3.contract_nr,
+      max(sub3.sum_days) AS client_contract_length
+     FROM ( SELECT sub2.client_id,
+              sub2.start_date,
+              sub2.end_date,
+              sub2.continous_contract,
+              sub2.contract_days,
+              sub2.contract_nr,
+              sum(sub2.contract_days) OVER (PARTITION BY sub2.client_id, sub2.contract_nr ORDER BY sub2.end_date) AS sum_days
+             FROM ( SELECT sub1.client_id,
+                      sub1.start_date,
+                      sub1.end_date,
+                      sub1.continous_contract,
+                      sub1.contract_days,
+                      count(*) FILTER (WHERE (NOT sub1.continous_contract)) OVER (PARTITION BY sub1.client_id ORDER BY sub1.end_date) AS contract_nr
+                     FROM ( SELECT client_contracts.client_id,
+                              client_contracts.start_date,
+                              client_contracts.end_date,
+                              (client_contracts.start_date <= (lag(client_contracts.end_date, 1, client_contracts.end_date) OVER (PARTITION BY client_contracts.client_id ORDER BY client_contracts.end_date) + 1)) AS continous_contract,
+                              (client_contracts.end_date - client_contracts.start_date) AS contract_days
+                             FROM client_contracts) sub1) sub2) sub3
+    GROUP BY sub3.client_id, sub3.contract_nr
+    ORDER BY sub3.client_id;
+  SQL
 end
