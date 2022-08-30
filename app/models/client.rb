@@ -29,7 +29,7 @@ class Client < ApplicationRecord
   has_many :autopay_schedules, through: :client_contracts
 
 
-  sql = <<-SQL
+  avg_lifetime_value_sql = <<-SQL
     SELECT
       SUM(sales.total_amount) / COUNT(DISTINCT clients.mindbody_id) as avg_lifetime_value
     FROM clients
@@ -39,10 +39,22 @@ class Client < ApplicationRecord
       purchased_items.is_service = TRUE;
   SQL
 
+  avg_client_membership_length_sql = <<-SQL
+  SELECT
+    SUM(views_client_contract_lengths.client_contract_length) / COUNT(DISTINCT clients.mindbody_id)
+    AS avg_client_membership_length
+  FROM
+    clients
+    INNER JOIN
+      views_client_contract_lengths
+      ON views_client_contract_lengths.client_id = clients.id
+  SQL
+
   scope :current_or_has_been_member, -> { joins(:client_contracts).distinct }
   scope :lifetime_value, ->(client) { Sale.client_lifetime_sales(client.id) }
   scope :avg_lifetime_value, -> { Sale.service_sale.select(:total_amount).sum(:total_amount).to_f / self.current_or_has_been_member.count.to_f }
-  scope :avg_client_value, -> { ActiveRecord::Base.connection.execute(sql)[0]["avg_lifetime_value"].to_f }
+  scope :avg_client_value, -> { ActiveRecord::Base.connection.execute(avg_lifetime_value_sql)[0]["avg_lifetime_value"].to_f }
+  scope :avg_client_membership_length, -> { ActiveRecord::Base.connection.execute(avg_client_membership_length_sql)[0]["avg_client_membership_length"].to_i }
 
   
   # Class methods
