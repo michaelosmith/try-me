@@ -124,3 +124,4 @@ end
 
 # [MS] Additions
 gem 'typhoeus'
+gem 'scenic'
