@@ -29,6 +29,8 @@ class Sale < ApplicationRecord
 
   scope :service_sale, -> { joins(:purchased_items).merge(PurchasedItem.is_service) }
   scope :retail_sale, -> { joins(:purchased_items).merge(PurchasedItem.not_service) }
+  scope :client_lifetime_sales, ->(client_id) { joins(:client).service_sale.where(client_id: client_id).select(:total_amount).sum(:total_amount).to_f }
+  scope :sum_service_sales, -> { service_sale.select(:total_amount).sum(:total_amount).to_f }
   # scope :client_lifetime_value, ->(client) { service_sale.where(client_id: client.id).select(:total_amount).sum(:total_amount).to_f }
 
   # Broadcast changes in realtime with Hotwire
