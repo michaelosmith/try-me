@@ -2,49 +2,7 @@ module Mindbody
   class Service < Mindbody::Base
 
     def get_all_clients
-
       get_request("/client/clients", :Clients)
-      # page_size = 200
-      # offset = 0
-      # all_clients_total = get_total_number_of_clients
-      # loops = calculate_request_loops(all_clients_total)
-
-      # requests = loops.times.map do
-      #   request = request_pool.queue(
-      #     Typhoeus::Request.new(
-      #     "#{base_url}/client/clients",
-      #     params: {
-      #       limit: page_size,
-      #       offset: offset
-      #     },
-      #     headers: headers
-      #     )
-      #   )
-
-      #   offset += page_size
-      #   request
-      # end
-
-      # request_pool.run
-      
-      # requests.reduce([]) do |clients, request|
-      #   parsed = parse(request.response.body)[:Clients]
-      #   parsed.each do |client|
-      #     clients << client unless client.empty?
-      #     member = Client.create!(mindbody_id: client[:Id],
-      #                         first_name: client[:FirstName],
-      #                         last_name: client[:LastName],
-      #                         email: client[:Email],
-      #                         photo: client[:PhotoUrl],
-      #                         gender: client[:Gender],
-      #                         date_of_birth: client[:BirthDate],
-      #                         mindbody_profile_created: client[:CreationDate],
-      #                         mindbody_profile_updated: client[:LastModifiedDateTime],
-      #                         account_id: 1
-      #                        )
-      #   end
-      #   clients
-      # end
     end
 
     def get_single_client(client_id)
@@ -189,18 +147,6 @@ module Mindbody
     def rate_limited?(response)
       response.code == 429
     end
-
-    # def get_total_number_of_clients
-    #   request = Typhoeus::Request.new(
-    #     "#{base_url}/client/clients",
-    #     params: { 
-    #       limit: 1,
-    #       offset: 0
-    #     },
-    #     headers: headers
-    #   ).run
-    #   parse(request.response_body)[:PaginationResponse][:TotalResults]
-    # end
 
     def calculate_request_loops(total_results, offset = 200)
       (total_results / offset.to_f).ceil
