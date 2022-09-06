@@ -8,7 +8,7 @@ business_address: |-
   66 Starkey Street
   Forestville
   NSW 2087
-background_job_processor: async
+background_job_processor: sidekiq
 email_provider: ''
 personal_accounts: true
 solargraph: false
@@ -16,4 +16,4 @@ register_with_account: true
 apns: false
 fcm: false
 payment_processors:
-- paddle
+- stripe

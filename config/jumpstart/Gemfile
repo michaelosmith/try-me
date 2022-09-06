@@ -1,1 +1,2 @@
-gem 'paddle_pay'
+gem 'stripe'
+gem 'sidekiq'
