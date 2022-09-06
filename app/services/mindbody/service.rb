@@ -51,7 +51,7 @@ module Mindbody
     end
 
     def get_classes(start_date = DEFAULT_START_DATE)
-      get_request("/class/classes", :Classes, {StartDate: start_date})
+      get_request("/class/classes", :Classes, {StartDateTime: start_date})
     end
 
     def get_client_visits(client_id, start_date = DEFAULT_START_DATE)
