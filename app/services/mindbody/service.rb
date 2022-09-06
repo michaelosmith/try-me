@@ -1,6 +1,8 @@
 module Mindbody
   class Service < Mindbody::Base
 
+    DEFAULT_START_DATE = "1980-01-01T00:00:00Z"
+
     def get_all_clients
       get_request("/client/clients", :Clients)
     end
@@ -37,13 +39,50 @@ module Mindbody
       get_request("/client/clientcompleteinfo", nil, { ClientId: client_id })
     end
 
-    def get_client_purchases(client_id)
+    def get_client_purchases(client_id, start_date = DEFAULT_START_DATE)
       get_request(
         "/client/clientpurchases",
         :Purchases,
         {
           ClientId: client_id,
-          StartDate: "1980-01-01T00:00:00Z"
+          StartDate: start_date
+        }
+      )
+    end
+
+    def get_classes(start_date = DEFAULT_START_DATE)
+      get_request("/class/classes", :Classes, {StartDate: start_date})
+    end
+
+    def get_client_visits(client_id, start_date = DEFAULT_START_DATE)
+      get_request(
+        "/client/clientvisits",
+        :Visits,
+        {
+          ClientId: client_id,
+          StartDate: start_date
+        }
+      )
+    end
+
+    def get_class_schedules(start_date = DEFAULT_START_DATE, end_date = DateTime.now)
+      get_request(
+        "/class/classschedules",
+        :ClassSchedules,
+        {
+          StartDate: start_date,
+          EndDate: end_date
+        }
+      )
+    end
+
+    def get_client_schedule(client_id, start_date = DEFAULT_START_DATE)
+      get_request(
+        "/client/clientschedule",
+        :Visits,
+        {
+          ClientId: client_id,
+          StartDate: start_date
         }
       )
     end
