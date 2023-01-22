@@ -50,8 +50,17 @@ module Mindbody
       )
     end
 
+    def get_class_descriptions
+      get_request("/class/classdescriptions", :ClassDescriptions)
+    end
+
     def get_classes(start_date = DEFAULT_START_DATE)
       get_request("/class/classes", :Classes, {StartDateTime: start_date})
+    end
+
+    def get_class(class_id, start_date = DEFAULT_START_DATE)
+      get_request("/class/classes", :Classes, {ClassIds: class_id,
+                                               StartDateTime: start_date})
     end
 
     def get_client_visits(client_id, start_date = DEFAULT_START_DATE)
@@ -145,6 +154,7 @@ module Mindbody
       end
       
       str_to_symbol = response_key.intern if response_key
+      # debugger
       result = parse(first_request.response_body)
       if paginated_requests
         response_key ? paginated_requests.prepend(result[str_to_symbol]) : paginated_requests.prepend(result)
@@ -179,7 +189,10 @@ module Mindbody
       
       str_to_symbol = response_key.intern if response_key
       responses = requests.map { |request|
-        response_key ? parse(request.response.body)[str_to_symbol] : parse(request.response.body)
+        # debugger
+        if !request.response.body.blank?
+          response_key ? parse(request.response.body)[str_to_symbol] : parse(request.response.body)
+        end
       }
     end
     

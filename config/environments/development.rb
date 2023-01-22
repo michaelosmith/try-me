@@ -80,4 +80,7 @@ Rails.application.configure do
   # config.action_controller.default_url_options = {host: "lvh.me", port: ENV.fetch("PORT", 3000).to_i}
 
   config.i18n.raise_on_missing_translations = true
+
+  # Add sidekiq
+  config.active_job.queue_adapter = :sidekiq
 end

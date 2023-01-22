@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_30_073243) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -171,17 +171,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_30_073243) do
     t.integer "waitlist_capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mindbody_class_schedule_id"
+    t.integer "mindbody_id"
     t.index ["fitness_class_id"], name: "index_fitness_class_schedules_on_fitness_class_id"
   end
 
   create_table "fitness_classes", force: :cascade do |t|
     t.string "name"
     t.string "category"
-    t.string "type"
+    t.string "class_type"
     t.string "level"
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mindbody_id"
   end
 
   create_table "notification_tokens", force: :cascade do |t|

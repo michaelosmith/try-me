@@ -2,14 +2,15 @@
 #
 # Table name: fitness_classes
 #
-#  id         :bigint           not null, primary key
-#  category   :string
-#  image      :string
-#  level      :string
-#  name       :string
-#  type       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  category    :string
+#  class_type  :string
+#  image       :string
+#  level       :string
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  mindbody_id :integer
 #
 
 one:
