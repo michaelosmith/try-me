@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "~> 3.2"
+ruby "~> 3.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 7.0.0"
@@ -86,7 +86,7 @@ eval_gemfile "Gemfile.jumpstart"
 # We recommend using strong migrations when your app is in production
 # gem "strong_migrations", "~> 0.7.6"
 
- [MS] Additions
+#[MS] Additions
 gem 'typhoeus'
 gem 'scenic'
 gem 'mindbody_public_api'
