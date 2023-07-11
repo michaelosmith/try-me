@@ -1,4 +1,4 @@
-<div class="mt-4 p-4 bg-white rounded-lg border border-gray-300 lg:p-10">
+<div class="p-4 mt-4 bg-white border border-gray-300 rounded-lg lg:p-10">
   <h3><%= t(".title") %></h3>
   <p class="mb-4 text-sm text-gray-700"><%= t(".description") %></p>
 
@@ -8,6 +8,6 @@
       <%= form.collection_select :user_id, account.users.where.not(users: { id: current_user.id }), :id, :name, { prompt: true }, { class: "form-control" } %>
     </div>
 
-    <%= form.button t(".transfer"), class: "btn btn-primary", data: { confirm: t(".are_you_sure") } %>
+    <%= form.button t(".transfer"), class: "btn btn-primary", data: { turbo_confirm: t(".are_you_sure") } %>
   <% end %>
 </div>

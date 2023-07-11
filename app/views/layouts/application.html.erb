@@ -22,19 +22,21 @@
     <%# Replace this with your FontAwesome Pro Kit code %>
     <script defer src="https://kit.fontawesome.com/0e5ab6a736.js" crossorigin="anonymous"></script>
 
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <%= yield :head %>
   </head>
 
   <body class="h-full font-sans antialiased font-normal leading-normal bg-gray-50">
-    <div class="main flex flex-col">
-      <%= render partial: "shared/flash" %>
-      <%= render partial: "shared/navbar" %>
+    <div class="flex flex-col main">
+      <header>
+        <%= render partial: "shared/flash" %>
+        <%= render partial: "shared/navbar" %>
+      </header>
 
-      <div class="px-3 lg:px-0 h-full">
+      <main class="h-full px-3 lg:px-0">
         <%= yield %>
-      </div>
+      </main>
     </div>
 
     <%= render partial: "shared/footer" unless turbo_native_app? %>

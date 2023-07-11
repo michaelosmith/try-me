@@ -4,6 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  amount            :integer          default(0), not null
+#  charge_per_unit   :boolean
 #  currency          :string
 #  description       :string
 #  details           :jsonb            not null
@@ -12,6 +13,7 @@
 #  interval_count    :integer          default(1)
 #  name              :string           not null
 #  trial_period_days :integer          default(0)
+#  unit_label        :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
@@ -21,13 +23,14 @@ class Plan < ApplicationRecord
   # https://github.com/excid3/prefixed_ids
   has_prefix_id :plan
 
-  store_accessor :details, :features, :stripe_id, :braintree_id, :paddle_id, :jumpstart_id, :fake_processor_id
+  store_accessor :details, :features, :stripe_id, :braintree_id, :paddle_id, :jumpstart_id, :fake_processor_id, :stripe_tax
   attribute :features, :string, array: true
 
   validates :name, :amount, :interval, presence: true
   validates :currency, presence: true, format: {with: /\A[a-zA-Z]{3}\z/, message: "must be a 3-letter ISO currency code"}
   validates :interval, inclusion: %w[month year]
   validates :trial_period_days, numericality: {only_integer: true}
+  validates :unit_label, presence: {if: :charge_per_unit?}
 
   scope :hidden, -> { unscope(where: :hidden).where(hidden: true) }
   scope :monthly, -> { without_free.where(interval: :month) }
@@ -73,6 +76,14 @@ class Plan < ApplicationRecord
     interval == "year"
   end
   alias_method :yearly?, :annual?
+
+  def stripe_tax=(value)
+    super(ActiveModel::Type::Boolean.new.cast(value))
+  end
+
+  def taxed?
+    ActiveModel::Type::Boolean.new.cast(stripe_tax)
+  end
 
   # Find a plan with the same name in the opposite interval
   # This is useful when letting users upgrade to the yearly plan

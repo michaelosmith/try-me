@@ -1,6 +1,6 @@
 <h4>Accounts</h4>
 <p class="text-gray-800">Every user in Jumpstart apps will have at least one Account they're a part of.</p>
-<p class="text-gray-800 mt-2">Personal accounts allow users to have resources that are private and not shared with other users. This is similar to personal GitHub repositories vs Org repos and personal vs team on Heroku apps.</p>
+<p class="mt-2 text-gray-800">Personal accounts allow users to have resources that are private and not shared with other users. This is similar to personal GitHub repositories vs Org repos and personal vs team on Heroku apps.</p>
 
 <div class="mt-4">
   <div class="custom-control custom-checkbox">
@@ -15,7 +15,7 @@
 
 <h4>Register with Account Details</h4>
 <p class="text-gray-800">Account details may need to be collected when the user signs up or registers. By enabling this feature, users will be prompted for an Account name on the registration form.</p>
-<p class="text-gray-800 mt-2">You can add additional fields by adding fields to the Account model and permitting the params in <code>application_controller.rb</code> for the Devise sign_up action.</p>
+<p class="mt-2 text-gray-800">You can add additional fields by adding fields to the Account model and permitting the params in <code>application_controller.rb</code> for the Devise sign_up action.</p>
 
 <div class="mt-4">
   <div class="custom-control custom-checkbox">
@@ -24,6 +24,7 @@
   </div>
 
   <p class="mt-2 text-sm text-gray-600">Users signing up through an invitation will <u>not</u> be prompted for account details.</p>
+  <p class="mt-2 text-sm text-gray-600">Enabling this option <u>disables</u> the personal accounts feature.</p>
 </div>
 
 <hr class="my-4" />
@@ -50,7 +51,7 @@
     <%= label_tag "multitenancy_domain", "Custom Domain", class: "inline-block" %>
   </div>
 
-  <div class="text-sm text-gray-600 mt-3">
+  <div class="mt-3 text-sm text-gray-600">
     <i class="fas fa-info-circle"></i> Typically, custom domains should be combined with subdomain switching. This provides a fallback in case the customer's domain isn't configured properly.
   </div>
 </div>

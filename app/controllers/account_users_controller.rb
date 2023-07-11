@@ -2,7 +2,7 @@ class AccountUsersController < Accounts::BaseController
   before_action :authenticate_user!
   before_action :set_account
   before_action :require_non_personal_account!
-  before_action :set_account_user, only: [:edit, :update, :destroy, :switch]
+  before_action :set_account_user, only: [:edit, :update, :destroy]
   before_action :require_account_admin, except: [:index, :show]
 
   # GET /accounts
@@ -31,7 +31,7 @@ class AccountUsersController < Accounts::BaseController
   # DELETE /account_users/1
   def destroy
     @account_user.destroy
-    redirect_to @account, notice: t(".destroyed")
+    redirect_to @account, status: :see_other, notice: t(".destroyed")
   end
 
   private

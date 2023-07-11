@@ -65,6 +65,11 @@ module Jumpstart
             private_key: ''
             # scope: 'user:email'
 
+          microsoft_graph:
+            # https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps
+            public_key: ''
+            private_key: ''
+
           twitter:
             # https://apps.twitter.com
             public_key: ''
@@ -156,14 +161,6 @@ module Jumpstart
           # For processing Paddle webhooks
           # https://vendors.paddle.com/public-key (only base64: MII...==)
           # Webhooks should be pointed to https://domain.com/webhooks/paddle
-          public_key_base64: ''
-
-        # Paddle
-        # https://vendors.paddle.com/authentication
-        # https://vendors.paddle.com/public-key
-        paddle:
-          vendor_id: ''
-          vendor_auth_code: ''
           public_key_base64: ''
 
         ###  Integrations

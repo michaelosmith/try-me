@@ -16,7 +16,7 @@ class UserDashboard < Administrate::BaseDashboard
     password: Field::Password.with_options(searchable: false),
     password_confirmation: Field::Password.with_options(searchable: false),
     accounts: Field::HasMany,
-    connected_accounts: Field::HasMany.with_options(class_name: "User::ConnectedAccount"),
+    connected_accounts: Field::HasMany.with_options(class_name: "ConnectedAccount"),
     avatar: Field::ActiveStorage,
     reset_password_token: Field::String,
     reset_password_sent_at: Field::DateTime,
@@ -89,6 +89,8 @@ class UserDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :email,
+    :password,
+    :terms_of_service,
     :admin
   ].freeze
 

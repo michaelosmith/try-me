@@ -27,8 +27,6 @@ module Jumpstart
       end
     end
 
-    private
-
     def stripe_base_url
       url = "https://dashboard.stripe.com"
       url += "/test" if Pay::Stripe.public_key.start_with?("pk_test")
@@ -38,7 +36,7 @@ module Jumpstart
     def braintree_base_url
       config = Pay.braintree_gateway.config
       merchant_id = config.merchant_id
-      environment = (config.environment.to_s == "sandbox" ? "sandbox" : "www")
+      environment = ((config.environment.to_s == "sandbox") ? "sandbox" : "www")
 
       "https://#{environment}.braintreegateway.com/merchants/#{merchant_id}"
     end

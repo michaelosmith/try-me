@@ -2,15 +2,17 @@
 #
 # Table name: accounts
 #
-#  id                 :bigint           not null, primary key
-#  domain             :string
-#  extra_billing_info :text
-#  name               :string           not null
-#  personal           :boolean          default(FALSE)
-#  subdomain          :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  owner_id           :bigint
+#  id                  :bigint           not null, primary key
+#  account_users_count :integer          default(0)
+#  billing_email       :string
+#  domain              :string
+#  extra_billing_info  :text
+#  name                :string           not null
+#  personal            :boolean          default(FALSE)
+#  subdomain           :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  owner_id            :bigint
 #
 # Indexes
 #
@@ -23,6 +25,31 @@
 require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
+  test "validates uniqueness of domain" do
+    account = accounts(:company).dup
+    assert_not account.valid?
+    assert_not_empty account.errors[:domain]
+  end
+
+  test "can have multiple accounts with nil domain" do
+    user = users(:one)
+    Account.create!(owner: user, name: "test")
+    Account.create!(owner: user, name: "test2")
+  end
+
+  test "validates uniqueness of subdomain" do
+    account = accounts(:company).dup
+    assert_not account.valid?
+    assert_not_empty account.errors[:subdomain]
+  end
+
+  test "can have multiple accounts with nil subdomain" do
+    user = users(:one)
+
+    Account.create!(owner: user, name: "test")
+    Account.create!(owner: user, name: "test2")
+  end
+
   test "validates against reserved domains" do
     account = Account.new(domain: Jumpstart.config.domain)
     assert_not account.valid?
@@ -115,5 +142,25 @@ class AccountTest < ActiveSupport::TestCase
     owner = account.owner
     refute account.transfer_ownership(users(:invited).id)
     assert_equal owner, account.reload.owner
+  end
+
+  test "billing_email shouldn't be included in receipts if empty" do
+    account = accounts(:company)
+    account.update!(billing_email: nil)
+    pay_customer = account.set_payment_processor :fake_processor, allow_fake: true
+    pay_charge = pay_customer.charge(10_00)
+
+    mail = Pay::UserMailer.with(pay_customer: pay_customer, pay_charge: pay_charge).receipt
+    assert_equal [account.email], mail.to
+  end
+
+  test "billing_email should be included in receipts if present" do
+    account = accounts(:company)
+    account.update!(billing_email: "accounting@example.com")
+    pay_customer = account.set_payment_processor :fake_processor, allow_fake: true
+    pay_charge = pay_customer.charge(10_00)
+
+    mail = Pay::UserMailer.with(pay_customer: pay_customer, pay_charge: pay_charge).receipt
+    assert_equal [account.email, "accounting@example.com"], mail.to
   end
 end

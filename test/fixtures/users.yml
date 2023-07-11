@@ -37,12 +37,12 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_invitation_token      (invitation_token) UNIQUE
-#  index_users_on_invitations_count     (invitations_count)
-#  index_users_on_invited_by            (invited_by_type,invited_by_id)
-#  index_users_on_invited_by_id         (invited_by_id)
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_email                              (email) UNIQUE
+#  index_users_on_invitation_token                   (invitation_token) UNIQUE
+#  index_users_on_invitations_count                  (invitations_count)
+#  index_users_on_invited_by_id                      (invited_by_id)
+#  index_users_on_invited_by_type_and_invited_by_id  (invited_by_type,invited_by_id)
+#  index_users_on_reset_password_token               (reset_password_token) UNIQUE
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -119,3 +119,23 @@ twofactor:
     - "0000000003"
     - "0000000004"
     - "0000000005"
+
+user_without_billing_address:
+  email: noaddress@example.com
+  first_name: User
+  last_name: NoAddress
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  accepted_terms_at: <%= Time.current %>
+  accepted_privacy_at: <%= Time.current %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+
+fake_processor:
+  email: fake@example.com
+  first_name: Fake
+  last_name: Processor
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+  accepted_terms_at: <%= Time.current %>
+  accepted_privacy_at: <%= Time.current %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>

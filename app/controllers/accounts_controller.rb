@@ -60,7 +60,7 @@ class AccountsController < Accounts::BaseController
   # DELETE /accounts/1
   def destroy
     @account.destroy
-    redirect_to accounts_url, notice: t(".destroyed")
+    redirect_to accounts_url, status: :see_other, notice: t(".destroyed")
   end
 
   # Current account will not change until the next request
@@ -69,7 +69,7 @@ class AccountsController < Accounts::BaseController
     # This is not enabled by default because we can't guarantee the domain is configured properly.
     #
     # if Jumpstart::Multitenancy.domain? && @account.domain?
-    #  redirect_to @account.domain
+    #  redirect_to @account.domain, allow_other_host: true
 
     if Jumpstart::Multitenancy.subdomain? && @account.subdomain?
       redirect_to root_url(subdomain: @account.subdomain), allow_other_host: true

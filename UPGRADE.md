@@ -1,3 +1,43 @@
+# Jumpstart Pro Upgrade Guide
+
+This file includes notes on major changes that might affect your application and require changes from you to update.
+
+### July 6, 2023
+
+`Gemfile.jumpstart` now replaces `config/jumpstart/Gemfile`. We no longer rewrite `config/jumpstart/Gemfile` each time the Jumpstart Pro configuration changes to keep things simpler and easier to work with.
+To upgrade, you will remove `config/jumpstart/Gemfile`. Gems will be automatically installed in `Gemfile.jumpstart` instead. You may need to modify this to specify versions if you had previously in the old file.
+Afterwards, you can run `bundle` to confirm all the same gems and versions are installed.
+
+### April 20, 2023
+
+We've fixed a security issue that allows users to bypass 2FA. See [PR #656](https://github.com/jumpstart-pro/jumpstart-pro-rails/pull/656) for details.
+
+### March 29, 2023
+
+We renamed the `outline` CSS class to `btn-outline` to prevent conflicts with TailwindCSS's `outline` class. You will need to update any references of `outline` to `btn-outline` in your views.
+We've also added a `Response` class that wraps API client responses to provide access to the original response object for status code and headers. This comes in handy when APIs use headers for pagination, rate limiting, etc.
+The original [DelayedJob](https://github.com/collectiveidea/delayed_job) gem is not compatible with Rails 7. We now use the [Delayed](https://github.com/betterment/delayed) fork by Betterment when DelayedJob is chosen as the background job processor.
+
+### February 6, 2023 - System admins
+
+For additional security, we've made the `admin` attribute on the User model readonly.
+The `admin` attribute denotes a user as a system-wide admin. The system admins have access to `/admin` and can view the entire database. This is helpful for customer support and other things.
+
+To add or remove a system admin, you can now run the following commands:
+
+```ruby
+# Add system admin
+Jumpstart.grant_system_admin! User.find_by_email("admin@example.org")
+
+# Remove system admin
+Jumpstart.revoke_system_admin! User.find_by_email("admin@example.org")
+```
+
+### February 1, 2023 - Administrate updates
+
+We've updated Administrate to the latest version. GitHub accidentally blew away a few commits we added, so you'll want to bundle update administrate so you're on the latest sha.
+Administrate has changed views to use new helper methods, so you'll also want to check out the recent commits to adjust the views we have overridden.
+
 ### September 14, 2021 - CSS & JS Bundling
 
 Rails 7 introduces `cssbundling-rails` and `jsbundling-rails` packages. We now use the Tailwind CLI and esbuild for Javascript. It's much, much faster and configurable.

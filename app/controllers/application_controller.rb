@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  include ActiveStorage::SetCurrent
   include BundleAssets
   include SetCurrentRequestDetails
   include SetLocale
@@ -13,13 +14,10 @@ class ApplicationController < ActionController::Base
   include CurrentHelper
   include Sortable
   include DeviceFormat
+  include Users::AgreementUpdates
   include Authorization
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  
-  # def after_sign_in_path_for(resource)
-  #   after_signup_path('add_site_id') #unless current_account.mindbody_account_detail.comlpeted?  
-  # end
 
   impersonates :user
 
@@ -36,7 +34,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     if wizard_completed?
-      stored_location_for(resource_or_scope) #|| super
+      stored_location_for(resource_or_scope) || super
     else
       flash[:notice] = "please complete onboarding"
       after_signup_path(:add_site_id)  
@@ -68,5 +66,9 @@ class ApplicationController < ActionController::Base
     else
       false
     end
+  private
+
+  def require_account
+    redirect_to new_user_registration_path unless current_account
   end
 end

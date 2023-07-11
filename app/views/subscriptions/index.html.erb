@@ -4,11 +4,11 @@
   </div>
 
   <div class="w-full lg:w-3/4 lg:p-4">
-    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-200">
-      <h1 class="h3 mb-2"><%= t(".title") %></h1>
+    <div class="p-4 bg-white border border-gray-200 rounded-lg lg:p-10">
+      <h1 class="mb-2 h3"><%= t(".title") %></h1>
 
       <% if account_admin?(current_account, current_user) %>
-        <h5 class="text-gray-700 font-semibold my-4 border-b border-gray-200 pb-2"><%= t(".subscriptions") %></h5>
+        <h5 class="pb-2 my-4 font-semibold text-gray-700 border-b border-gray-200"><%= t(".subscriptions") %></h5>
         <% if @subscriptions.any? %>
           <%= render partial: "subscriptions/subscription", collection: @subscriptions %>
         <% else %>
@@ -22,9 +22,14 @@
           <%= render "subscriptions/payment_method", payment_processor: @payment_processor %>
         <% end %>
 
+        <% if Jumpstart.config.collect_billing_address? %>
+          <%= render "subscriptions/billing_address", billing_address: @billing_address %>
+        <% end %>
+
         <%# Paddle: Extra payment details live in Paddle, not our app %>
         <% unless @payment_processor&.paddle? %>
           <%= render partial: "subscriptions/billing_info" %>
+          <%= render partial: "subscriptions/billing_email" %>
         <% end %>
 
         <%= render partial: "subscriptions/charges" %>

@@ -37,12 +37,12 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_invitation_token      (invitation_token) UNIQUE
-#  index_users_on_invitations_count     (invitations_count)
-#  index_users_on_invited_by            (invited_by_type,invited_by_id)
-#  index_users_on_invited_by_id         (invited_by_id)
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_email                              (email) UNIQUE
+#  index_users_on_invitation_token                   (invitation_token) UNIQUE
+#  index_users_on_invitations_count                  (invitations_count)
+#  index_users_on_invited_by_id                      (invited_by_id)
+#  index_users_on_invited_by_type_and_invited_by_id  (invited_by_type,invited_by_id)
+#  index_users_on_reset_password_token               (reset_password_token) UNIQUE
 #
 
 class User < ApplicationRecord
@@ -54,7 +54,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, andle :trackable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :omniauthable
+  devise(*[:database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, (:omniauthable if defined? OmniAuth)].compact)
 
   has_noticed_notifications
   has_person_name
@@ -66,13 +66,16 @@ class User < ApplicationRecord
 
   # Associations
   has_many :api_tokens, dependent: :destroy
-  has_many :connected_accounts, dependent: :destroy
+  has_many :connected_accounts, as: :owner, dependent: :destroy
   has_many :notifications, as: :recipient, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
 
   # We don't need users to confirm their email address on create,
   # just when they change it
   before_create :skip_confirmation!
+
+  # Protect admin flag from editing
+  attr_readonly :admin
 
   # Validations
   validates :name, presence: true

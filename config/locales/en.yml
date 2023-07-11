@@ -75,6 +75,7 @@ en:
       current: "Current Account"
     show:
       invite: "Invite A User"
+      resend_invite: "Resend Invite"
       edit: "Edit"
       edit_account: "Edit Account"
       copy_link: "Copy link"
@@ -95,6 +96,9 @@ en:
     users: "Users"
     roles: "Roles"
     account_invitations:
+      sent: "Invitation was sent to %{email}."
+      updated: "Invitation was successfully updated."
+      destroyed: "Invitation was successfully removed."
       new:
         title: "Invite User"
         description: "Invite a user to join your account."
@@ -123,6 +127,11 @@ en:
       description: "New updates and improvements to %{name}"
       empty_placeholder: "Exciting stuff coming very soon!"
 
+    show:
+      title: "What's New"
+      description: "New updates and improvements to %{name}"
+      back: "Back"
+
   api_tokens:
     created: "Successfully created API token"
     updated: "Successfully updated API token"
@@ -150,6 +159,7 @@ en:
     new:
       billing: "Billing"
       payment_details: "Payment Details"
+      past_due: "Your payment method was declined. Please add another payment method to continue."
 
     create:
       updated: "Your payment method was updated successfully."
@@ -180,7 +190,7 @@ en:
       confirm_button: "Confirm Payment"
 
   static:
-    no_plans: "There are no pricing plans configured."
+    no_plans_html: "There are no pricing plans configured. %{link}."
     pricing:
       heading: "Pricing Plans"
       subhead: "Simple, straightforward pricing to get your online business up and running"
@@ -221,14 +231,15 @@ en:
       log_in: "Log In"
       sign_up: "Sign Up"
     oauth:
-      apple: "Apple"
+      apple: "Sign in with Apple"
       developer: "Developer"
-      facebook: "Facebook"
-      github: "GitHub"
-      gitlab: "GitLab"
-      google_oauth2: "Google"
-      stripe: "Stripe"
-      twitter: "Twitter"
+      facebook: "Sign in with Facebook"
+      github: "Sign in with GitHub"
+      gitlab: "Sign in with GitLab"
+      google_oauth2: "Sign in with Google"
+      microsoft_graph: "Sign in with Microsoft"
+      stripe: "Sign in with Stripe"
+      twitter: "Sign in with Twitter"
     right_nav:
       pricing: "Pricing"
       announcements: "What's New"
@@ -243,12 +254,14 @@ en:
   subscriptions:
     created: "Thanks for subscribing!"
     resumed: "Your subscription has been resumed."
-    info_updated: "Extra billing info saved sucessfully."
+    billing_settings_updated: "Billing settings have been updated successfully."
+    already_subscribed: "You are already subscribed."
 
     plan:
       change_plan: "Change Plan"
       current_plan: "Current plan"
       get_started: "Get Started"
+      start_trial: "Start Trial"
       processing: "Processing..."
 
     index:
@@ -260,9 +273,12 @@ en:
 
     new:
       title: "Checkout"
+      account: "Account"
+      billing_address: "Billing Address"
       payment_method: "Payment Method"
       change: "Change"
       subscribe: "Subscribe"
+      start_trial: "Start trial"
       processing: "Processing..."
       help: "Need any help?"
       contact_html: "Don't hesitate to %{link}."
@@ -270,6 +286,9 @@ en:
       contact_support: "contact support"
       contact_subject: "I have a question about %{product}"
       testimonial: "%{product} has made my life so much easier. I can't recommend it enough."
+      subtotal: "Subtotal"
+      tax: "Tax"
+      total: "Total due today"
 
     edit:
       trial_ends: "Your trial ends in %{days}."
@@ -286,11 +305,10 @@ en:
     subscription:
       cancel_plan: "Cancel plan"
       canceled_on_trial: "After your trial ends on %{date}, this plan will be canceled automatically."
-      title: "Current Plan"
+      title: "Current Plans"
       free_trial: "Free Trial"
       free_trial_ends: "Your trial ends on %{date}."
       trial: "After your trial ends on %{date}, this plan will continue automatically."
-      quantity: "Quantity: %{quantity} at %{price} each"
       resume: "Resume plan"
       change_plan: "Change plan"
       pause: "Pause plan"
@@ -300,11 +318,31 @@ en:
       ends_at: "Your plan will be canceled on %{date}."
       paused_at: "Your plan will be paused on %{date}."
       paused: "Your plan is paused."
+      view_usage: "View usage"
+      view_upcoming_invoice: "View upcoming invoice"
+      past_due: "Past due"
+      unpaid: "Unpaid"
+      update_payment_method: "Update payment method"
+      failed_payment: "Your latest payment has failed. Update your payment method to continue this plan."
 
     payment_method:
       payment_method: "Payment Method"
       no_payment_method: "You have no payment method on file."
       update_payment_method: "Update payment method"
+
+    billing_address:
+      billing_address: "Billing Address"
+      add_billing_address: "Add billing address"
+      created: "Your billing address was added successfully."
+      update_billing_address: "Update billing address"
+      updated: "Your billing address was updated successfully."
+      no_billing_address: "You have no billing address on file."
+      destroyed: "Your billing address has been removed successfully."
+      edit: "Edit"
+
+    billing_addresses:
+      show:
+        tax_may_apply: "Tax may apply."
 
     billing_info:
       extra_billing_info: "Extra Billing Information"
@@ -312,6 +350,12 @@ en:
       save_info: "Save information"
       saving: "Saving..."
       add_info: "Add information"
+
+    billing_email:
+      billing_email: "Billing Email"
+      description: "Send receipts to a specific email address along with the account owner."
+      save: "Save"
+      saving: "Saving..."
 
     charges:
       title: "Billing History"
@@ -338,13 +382,17 @@ en:
       show:
         title: "Resume your plan"
         resume: "This plan will no longer be canceled and will automatically renew."
-        quantity: "Quantity: %{quantity} at %{price} each"
         back: "Back to Billing"
         button: "Resume plan"
         processing: "Resuming..."
 
       update:
         resumed: "Your subscription has been resumed."
+
+    summary:
+      quantity: "Quantity: %{quantity} at %{price} %{unit}"
+      per_unit: "per %{unit}"
+      each: "each"
 
     cancels:
       show:
@@ -353,7 +401,6 @@ en:
         help_html: "Need to talk to someone? %{link} -- we'd love to help."
         contact_us: "Contact us"
         subject: "Question about %{product}"
-        quantity: "Quantity: %{quantity} at %{price} each"
         active_until: "Your plan will be canceled, but is still available until the end of your billing period."
         resume: "If you change your mind, you can resume your subscription."
         button: "Cancel plan"
@@ -362,6 +409,18 @@ en:
 
       destroy:
         resumed: "Your subscription has been canceled."
+
+    upcomings:
+      show:
+        title: "Upcoming Invoice"
+        description: "The current costs for your usage this billing period."
+        line_items:
+          description: "Description"
+          quantity: "Quantity"
+          unit_price: "Unit Price"
+          total: "Total"
+        quantity: "Quantity"
+        back: "Back to Billing"
 
     forms:
       stripe:
@@ -380,17 +439,28 @@ en:
           disable: "Disable two-factor authentication"
 
   users:
+    agreements:
+      show:
+        title: "%{agreement} Changed"
+        last_updated: "Last updated %{date}"
+        description: "Before you can proceed, you must read and accept the new %{agreement}."
+        accept: "I Accept"
+        decline: "I Decline"
+      destroy:
+        declined: "To continue using the service, please sign in and accept the %{agreement}."
     avatar:
       upload: "Upload Avatar"
     connected_accounts:
       index:
         title: "Connected Accounts"
         description: "Connecting your social media accounts makes logging in easier."
-        remove: "Remove"
         redirecting: "Redirecting..."
         none: "You don't have any connected accounts."
+      connected_account:
+        remove: "Remove"
     omniauth_callbacks:
       account_exists: "We already have an account with this email. Login with your previous account before connecting this one."
+      connected_to_another_account: "This account is already connected to another user."
     sessions:
       create:
         incorrect_verification_code: "Incorrect verification code"
@@ -488,6 +558,7 @@ en:
         subdomain: "example"
         name_on_card: "Full Name"
         extra_billing_info: "VAT ID, Business name, address, etc..."
+        billing_email: "account@example.com"
       api_token:
         name: "Token Name"
       user:

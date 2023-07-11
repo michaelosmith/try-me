@@ -23,9 +23,7 @@ Rails.application.routes.draw do
       resources :users do
         resource :impersonate, module: :user
       end
-      namespace :user do
-        resources :connected_accounts
-      end
+      resources :connected_accounts
       resources :accounts
       resources :account_users
       resources :plans
@@ -55,15 +53,15 @@ Rails.application.routes.draw do
   # User account
   devise_for :users,
     controllers: {
-      omniauth_callbacks: "users/omniauth_callbacks",
+      omniauth_callbacks: ("users/omniauth_callbacks" if defined? OmniAuth),
       registrations: "users/registrations",
       sessions: "users/sessions"
-    }
+    }.compact
   devise_scope :user do
     get "session/otp", to: "sessions#otp"
   end
 
-  resources :announcements, only: [:index]
+  resources :announcements, only: [:index, :show]
   resources :api_tokens
   resources :accounts do
     member do
@@ -72,18 +70,38 @@ Rails.application.routes.draw do
 
     resource :transfer, module: :accounts
     resources :account_users, path: :members
-    resources :account_invitations, path: :invitations, module: :accounts
+    resources :account_invitations, path: :invitations, module: :accounts do
+      member do
+        post :resend
+      end
+    end
   end
   resources :account_invitations
 
   # Payments
+  resource :billing_address
+  namespace :payment_methods do
+    resource :stripe, controller: :stripe, only: [:show]
+  end
   resources :payment_methods
+  namespace :subscriptions do
+    resource :billing_address
+    namespace :stripe do
+      resource :trial, only: [:show]
+    end
+  end
   resources :subscriptions do
     resource :cancel, module: :subscriptions
     resource :pause, module: :subscriptions
     resource :resume, module: :subscriptions
+    resource :upcoming, module: :subscriptions
+
     collection do
-      patch :info
+      patch :billing_settings
+    end
+
+    scope module: :subscriptions do
+      resource :stripe, controller: :stripe, only: [:show]
     end
   end
   resources :charges do
@@ -92,6 +110,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :agreements, module: :users
   namespace :account do
     resource :password
   end

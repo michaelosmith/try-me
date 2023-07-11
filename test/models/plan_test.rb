@@ -4,6 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  amount            :integer          default(0), not null
+#  charge_per_unit   :boolean
 #  currency          :string
 #  description       :string
 #  details           :jsonb            not null
@@ -12,6 +13,7 @@
 #  interval_count    :integer          default(1)
 #  name              :string           not null
 #  trial_period_days :integer          default(0)
+#  unit_label        :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
@@ -64,6 +66,21 @@ class PlanTest < ActiveSupport::TestCase
   test "hidden doesn't include visible plans" do
     assert_includes Plan.hidden, plans(:hidden)
     assert_not_includes Plan.hidden, plans(:personal)
+  end
+
+  test "plan converts stripe_tax to boolean" do
+    plan = Plan.first
+    plan.stripe_tax = "1"
+    assert plan.stripe_tax
+
+    plan.stripe_tax = "0"
+    refute plan.stripe_tax
+  end
+
+  test "unit label required if charge_by_unit enabled" do
+    plan = Plan.new(charge_per_unit: true, unit_label: "")
+    refute plan.valid?
+    assert plan.errors[:unit_label].any?
   end
 
   private

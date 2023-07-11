@@ -9,17 +9,21 @@
 }
 
 .btn-twitter {
-  @apply bg-twitter text-white;
+  @apply text-white bg-twitter;
 }
 
 .btn-facebook {
-  @apply bg-facebook text-white;
+  @apply text-white bg-facebook;
 }
 
 .btn-github {
-  @apply bg-gray-500 text-white;
+  @apply text-white bg-gray-500;
 }
 
 .btn-google_oauth2 {
-  @apply bg-google_oauth2 text-white;
+  @apply text-white bg-google_oauth2;
+}
+
+.btn-microsoft_graph {
+  @apply bg-white border text-slate-900 border-slate-900;
 }

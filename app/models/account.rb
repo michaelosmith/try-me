@@ -2,15 +2,17 @@
 #
 # Table name: accounts
 #
-#  id                 :bigint           not null, primary key
-#  domain             :string
-#  extra_billing_info :text
-#  name               :string           not null
-#  personal           :boolean          default(FALSE)
-#  subdomain          :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  owner_id           :bigint
+#  id                  :bigint           not null, primary key
+#  account_users_count :integer          default(0)
+#  billing_email       :string
+#  domain              :string
+#  extra_billing_info  :text
+#  name                :string           not null
+#  personal            :boolean          default(FALSE)
+#  subdomain           :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  owner_id            :bigint
 #
 # Indexes
 #
@@ -30,6 +32,9 @@ class Account < ApplicationRecord
   has_many :account_users, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :users, through: :account_users
+  has_many :addresses, as: :addressable, dependent: :destroy
+  has_one :billing_address, -> { where(address_type: :billing) }, class_name: "Address", as: :addressable
+  has_one :shipping_address, -> { where(address_type: :shipping) }, class_name: "Address", as: :addressable
   has_one :mindbody_account_detail, dependent: :destroy
 
   scope :personal, -> { where(personal: true) }
@@ -38,15 +43,23 @@ class Account < ApplicationRecord
 
   has_noticed_notifications
   has_one_attached :avatar
-  pay_customer
+  pay_customer stripe_attributes: :stripe_attributes
 
-  validates :name, presence: true
-  validates :domain, exclusion: {in: RESERVED_DOMAINS, message: :reserved}
-  validates :subdomain, exclusion: {in: RESERVED_SUBDOMAINS, message: :reserved}, format: {with: /\A[a-zA-Z0-9]+[a-zA-Z0-9\-_]*[a-zA-Z0-9]+\Z/, message: :format, allow_blank: true}
   validates :avatar, resizable_image: true
+  validates :name, presence: true
 
+  # To require a domain or subdomain, add the presence validation
+  validates :domain, exclusion: {in: RESERVED_DOMAINS, message: :reserved}, uniqueness: {allow_blank: true}
+  validates :subdomain, exclusion: {in: RESERVED_SUBDOMAINS, message: :reserved}, format: {with: /\A[a-zA-Z0-9]+[a-zA-Z0-9\-_]*[a-zA-Z0-9]+\Z/, message: :format, allow_blank: true}, uniqueness: {allow_blank: true}
+
+  def find_or_build_billing_address
+    billing_address || build_billing_address
+  end
+
+  # Email address used for Pay customers and receipts
+  # Defaults to billing_email if defined, otherwise uses the account owner's email
   def email
-    account_users.includes(:user).order(created_at: :asc).first.user.email
+    billing_email? ? billing_email : owner.email
   end
 
   def impersonal?
@@ -84,7 +97,7 @@ class Account < ApplicationRecord
     end
 
     # Notify the new owner of the change
-    Account::OwnershipNotification.with(account: self, previous_owner: previous_owner.name).deliver_later(user)
+    Account::OwnershipNotification.with(account: self, previous_owner: previous_owner).deliver_later(user)
   rescue
     false
   end
@@ -109,4 +122,17 @@ class Account < ApplicationRecord
   #     association.create(name: "example")
   #   end
   # end
+
+  # Used for per-unit subscriptions on create and update
+  # Returns the quantity that should be on the subscription
+  def per_unit_quantity
+    account_users_count
+  end
+
+  private
+
+  # Attributes to sync to the Stripe Customer
+  def stripe_attributes(*args)
+    {address: billing_address&.to_stripe}.compact
+  end
 end

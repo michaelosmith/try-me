@@ -1,53 +1,49 @@
 <% content_for :section_title, "Pills" %>
 
-<div class="mb-10">
-  <h4 class="uppercase text-gray-700 tracking-wide font-semibold text-xs border-b border-gray-400 pb-3 mb-3">Default</h4>
+<h4>Default</h4>
 
-  <%= render "jumpstart/docs/snippet" do %>
-<div class="rounded-full py-1 px-4 bg-gray-400 text-xs inline-block text-gray-700 font-bold leading-normal uppercase mr-2">
-  Default
-</div>
-
-<div class="rounded-full py-1 px-4 bg-primary-500 text-xs inline-block text-white font-bold leading-normal uppercase mr-2">
-  Primary
+<%= render "jumpstart/docs/snippet" do %>
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-gray-700 uppercase bg-gray-400 rounded-full">
+Default
 </div>
 
-<div class="rounded-full py-1 px-4 bg-secondary-500 text-xs inline-block text-white font-bold leading-normal uppercase mr-2">
-  Secondary
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-white uppercase rounded-full bg-primary-500">
+Primary
 </div>
 
-<div class="rounded-full py-1 px-4 bg-tertiary-500 text-xs inline-block text-white font-bold leading-normal uppercase mr-2">
-  Tertiary
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-white uppercase rounded-full bg-secondary-500">
+Secondary
 </div>
 
-<div class="rounded-full py-1 px-4 bg-orange-400 text-xs inline-block text-white font-bold leading-normal uppercase mr-2">
-  Accent
-</div>
-  <% end %>
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-white uppercase rounded-full bg-tertiary-500">
+Tertiary
 </div>
 
-<div class="mb-10">
-  <h4 class="uppercase text-gray-700 tracking-wide font-semibold text-xs border-b border-gray-400 pb-3 mb-3">Outlined</h4>
-
-  <%= render "jumpstart/docs/snippet" do %>
-<div class="rounded-full py-1 px-4 bg-transparent border-2 border-gray-400 text-xs inline-block text-gray-700 font-bold leading-normal uppercase mr-2">
-  Default
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-white uppercase bg-orange-400 rounded-full">
+Accent
 </div>
+<% end %>
 
-<div class="rounded-full py-1 px-4 bg-transparent border-2 border-primary-500 text-xs inline-block text-primary-500 font-bold leading-normal uppercase mr-2">
-  Primary
-</div>
+<h4>Outlined</h4>
 
-<div class="rounded-full py-1 px-4 bg-transparent border-2 border-secondary-500 text-xs inline-block text-secondary-500 font-bold leading-normal uppercase mr-2">
-  Secondary
+<%= render "jumpstart/docs/snippet" do %>
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-gray-700 uppercase bg-transparent border-2 border-gray-400 rounded-full">
+Default
 </div>
 
-<div class="rounded-full py-1 px-4 bg-transparent border-2 border-tertiary-500 text-xs inline-block text-tertiary-500 font-bold leading-normal uppercase mr-2">
-  Tertiary
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal uppercase bg-transparent border-2 rounded-full border-primary-500 text-primary-500">
+Primary
 </div>
 
-<div class="rounded-full py-1 px-4 bg-transparent border-2 border-orange-500 text-xs inline-block text-orange-500 font-bold leading-normal uppercase mr-2">
-  Accent
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal uppercase bg-transparent border-2 rounded-full border-secondary-500 text-secondary-500">
+Secondary
 </div>
-  <% end %>
+
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal uppercase bg-transparent border-2 rounded-full border-tertiary-500 text-tertiary-500">
+Tertiary
 </div>
+
+<div class="inline-block px-4 py-1 mr-2 text-xs font-bold leading-normal text-orange-500 uppercase bg-transparent border-2 border-orange-500 rounded-full">
+Accent
+</div>
+<% end %>

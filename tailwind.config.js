@@ -8,7 +8,6 @@ module.exports = {
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/typography'),
   ],
 
@@ -17,6 +16,7 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.erb',
     './app/views/**/*.haml',
+    './app/views/**/*.slim',
     './lib/jumpstart/app/views/**/*.erb',
     './lib/jumpstart/app/helpers/**/*.rb',
   ],
