@@ -69,4 +69,8 @@ module ApplicationHelper
   def avg_client_membership_length
     (Client.avg_client_membership_length)
   end
+
+  def onboarding_completed?
+    current_account.onboarding_completed?
+  end
 end

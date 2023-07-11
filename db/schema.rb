@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_08_120748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -136,6 +136,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
     t.integer "mindbody_contract_id"
     t.date "start_date"
     t.date "end_date"
+    t.integer "mindbody_client_contract_id"
+    t.integer "account_id"
     t.index ["client_id"], name: "index_client_contracts_on_client_id"
   end
 
@@ -159,6 +161,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
   create_table "fitness_class_bookings", id: false, force: :cascade do |t|
     t.bigint "fitness_class_schedule_id", null: false
     t.bigint "client_id", null: false
+    t.integer "account_id"
   end
 
   create_table "fitness_class_schedules", force: :cascade do |t|
@@ -173,6 +176,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
     t.datetime "updated_at", null: false
     t.integer "mindbody_class_schedule_id"
     t.integer "mindbody_id"
+    t.integer "account_id"
     t.index ["fitness_class_id"], name: "index_fitness_class_schedules_on_fitness_class_id"
   end
 
@@ -185,6 +189,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mindbody_id"
+    t.text "description"
+    t.integer "account_id"
+  end
+
+  create_table "mindbody_account_details", force: :cascade do |t|
+    t.integer "mindbody_site_id"
+    t.string "mindbody_admin_user"
+    t.string "mindbody_admin_password"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "completed", default: false
+    t.index ["account_id"], name: "index_mindbody_account_details_on_account_id"
   end
 
   create_table "notification_tokens", force: :cascade do |t|
@@ -331,6 +348,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
     t.index ["client_id"], name: "index_sales_on_client_id"
   end
 
+  create_table "sidekiq_sequence_records", force: :cascade do |t|
+    t.jsonb "data"
+    t.integer "current_step", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_connected_accounts", force: :cascade do |t|
     t.bigint "user_id"
     t.string "provider"
@@ -395,6 +419,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_27_113146) do
   add_foreign_key "autopay_schedules", "client_contracts"
   add_foreign_key "client_contracts", "clients"
   add_foreign_key "fitness_class_schedules", "fitness_classes"
+  add_foreign_key "mindbody_account_details", "accounts"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"

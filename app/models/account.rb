@@ -30,6 +30,7 @@ class Account < ApplicationRecord
   has_many :account_users, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :users, through: :account_users
+  has_one :mindbody_account_detail, dependent: :destroy
 
   scope :personal, -> { where(personal: true) }
   scope :impersonal, -> { where(personal: false) }
@@ -86,6 +87,10 @@ class Account < ApplicationRecord
     Account::OwnershipNotification.with(account: self, previous_owner: previous_owner.name).deliver_later(user)
   rescue
     false
+  end
+
+  def onboarding_completed?
+    mindbody_account_detail.completed?
   end
 
   # Uncomment this to add generic trials (without a card or plan)

@@ -1,6 +1,6 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
-  resources :clients
+  resources :clients, only: [:index, :show]
   resources :fitness_classes
   resources :fitness_class_schedules #, as: 'classes'
   draw :turbo
@@ -128,10 +128,19 @@ Rails.application.routes.draw do
   match "/500", via: :all, to: "errors#internal_server_error"
 
   authenticated :user do
-    root to: "dashboard#show", as: :user_root
+    root to: "dashboard#show", as: :user
     # Alternate route to use if logged in users should still see public root
     # get "/dashboard", to: "dashboard#show", as: :user_root
+    
+    # route where any visitor require the helloWorldJob to be triggered
+    post "dashboard/first_job"
+    post "dashboard/second_job"
+    post "dashboard/third_job"
+    post "dashboard/fourth_job"
+    post "dashboard/fifth_job"
   end
+
+  resources :after_signup, only: [:show, :update]
 
   # Public marketing homepage
   root to: "static#index"

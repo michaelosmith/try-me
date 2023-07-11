@@ -125,3 +125,8 @@ end
 # [MS] Additions
 gem 'typhoeus'
 gem 'scenic'
+gem 'mindbody_public_api'
+# gem "honeybadger", "~> 5.2"
+gem 'wicked', '~> 2.0'
+# gem 'wicked-wizard-validations'
+gem 'sidekiq-sequence'

@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
   include Authorization
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  
+  # def after_sign_in_path_for(resource)
+  #   after_signup_path('add_site_id') #unless current_account.mindbody_account_detail.comlpeted?  
+  # end
 
   impersonates :user
 
@@ -31,7 +35,12 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || super
+    if wizard_completed?
+      stored_location_for(resource_or_scope) #|| super
+    else
+      flash[:notice] = "please complete onboarding"
+      after_signup_path(:add_site_id)  
+    end
   end
 
   # Helper method for verifying authentication in a before_action, but redirecting to sign up instead of login
@@ -45,6 +54,19 @@ class ApplicationController < ActionController::Base
   def require_current_account_admin
     unless current_account_admin?
       redirect_to root_path, alert: t("must_be_an_admin")
+    end
+  end
+
+  def complete_wizard
+    after_signup_path('add_site_id')
+  end
+
+  def wizard_completed?
+    if current_account.mindbody_account_detail.present?
+      current_account.mindbody_account_detail.completed?
+      true
+    else
+      false
     end
   end
 end
